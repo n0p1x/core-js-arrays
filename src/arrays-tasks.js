@@ -489,8 +489,34 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => longest is [3, 10] and [1, 20] => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  if (!nums || nums.length === 0) {
+    return 0;
+  }
+
+  return nums.reduce(
+    (acc, curr, index, array) => {
+      if (index === 0) {
+        return {
+          maxLen: 1,
+          currentLen: 1,
+        };
+      }
+
+      if (curr > array[index - 1]) {
+        return {
+          maxLen: Math.max(acc.maxLen, acc.currentLen + 1),
+          currentLen: acc.currentLen + 1,
+        };
+      }
+
+      return {
+        maxLen: Math.max(acc.maxLen, 1),
+        currentLen: 1,
+      };
+    },
+    { maxLen: 1, currentLen: 1 }
+  ).maxLen;
 }
 
 /**
@@ -579,8 +605,17 @@ function sortDigitNamesByNumericOrder(arr) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length <= 1) return arr;
+
+  const midIndex = Math.floor(arr.length / 2);
+  const isOddLength = arr.length % 2 !== 0;
+
+  const head = arr.slice(0, midIndex);
+  const tail = arr.slice(-midIndex);
+  const middle = isOddLength ? [arr[midIndex]] : [];
+
+  return [...tail, ...middle, ...head];
 }
 
 module.exports = {
